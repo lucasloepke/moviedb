@@ -2,6 +2,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
+
 import os
 os.chdir(os.path.dirname(__file__))
 
@@ -14,6 +15,7 @@ word = random_row.iloc[0,6]
 
 df['profit'] = df['revenue'] - df['budget']
 print(df[['original_title', 'budget', 'revenue', 'profit', 'vote_average']].sort_values('profit', ascending=False).head(10))
+print(df.info())
 
 #sns.set_theme(color_codes=True)
 #tips = sns.load_dataset("tips")
