@@ -2,9 +2,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
-
-import os
-os.chdir(os.path.dirname(__file__))
+import os; os.chdir(os.path.dirname(__file__))
 
 #---------------------------------------------------------------------------
 
