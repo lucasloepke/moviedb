@@ -7,21 +7,16 @@ import os
 os.chdir(os.path.dirname(__file__))
 
 #---------------------------------------------------------------------------
-# Pandas
+
 df = pd.read_csv(r'tmdb_5000_movies.csv')
-random_row = df.sample()
-word = random_row.iloc[0,6]
-#---------------------------------------------------------------------------
 
-df['profit'] = df['revenue'] - df['budget']
-print(df[['original_title', 'budget', 'revenue', 'profit', 'vote_average']].sort_values('profit', ascending=False).head(10))
-print(df.info())
+df['profit'] = df['revenue'] - df['budget'] # creating profit col
+df['year'] = df['release_date'].str[:4] # extracting release year from date
+df['Title'] = df['original_title']; df['score'] = df['vote_average']
 
-#sns.set_theme(color_codes=True)
-#tips = sns.load_dataset("tips")
-#sns.regplot(x="budget", y="revenue", data=df.head(10))
-#for i, row in df.iterrows():
-#    plt.text(row['budget'], row['revenue'], row['title'], ha='center')
-#plt.show()
 
+print("--- Most Profitable Movies -------------------------------------------------------------------------")
+sdf = df[['Title', 'year', 'budget', 'revenue', 'profit', 'score']].sort_values('profit', ascending=False).head(10)
+print(sdf)
+print("----------------------------------------------------------------------------------------------------")
 
