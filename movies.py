@@ -15,6 +15,7 @@ class bc:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 #---------------------------------------------------------------------------
+# note that dataset does not cover movies newer than 2016
 
 df = pd.read_csv(r'tmdb_5000_movies.csv')
 
@@ -59,4 +60,12 @@ sdf['year'] = sdf['year'].apply(lambda x: '{:.0f}'.format(x))
 sdf['score'] = sdf['score'].apply(lambda x: '{:.1f}'.format(x))
 
 print(sdf[sdf['Title'].str.contains('Harry Potter')].sort_values('year').to_string(index=False))
+print(f"{bc.b}---{bc.ENDC} {bc.c} LOTR Series {bc.b}-----------------------------------------------------------------------------------{bc.ENDC}")
+print(sdf[sdf['Title'].str.contains('Lord of the Rings|Hobbit')].sort_values('year').to_string(index=False))
+
+print(f"{bc.b}---{bc.ENDC} {bc.c} Most Popular Films {bc.b}----------------------------------------------------------------------------{bc.ENDC}")
+
+ssdf = df[['Title', 'year','profit', 'score', 'popularity']].sort_values('popularity', ascending=False)
+ssdf['profit'] = ssdf['profit'].apply(lambda x: '{:.0f}m'.format(x/1e6))
+print(ssdf.head(5).to_string(index=False))
 print(f"{bc.b}----------------------------------------------------------------------------------------------------{bc.ENDC}")
