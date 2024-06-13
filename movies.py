@@ -15,6 +15,7 @@ df['Title'] = df['original_title']; df['score'] = df['vote_average'] # cleaning 
 
 print("--- Most Profitable Movies -------------------------------------------------------------------------")
 sdf = df[['Title', 'year', 'budget', 'revenue', 'profit', 'score']].sort_values('profit', ascending=False)
+
 print(sdf)
 print("--- Most Profitable Years --------------------------------------------------------------------------")
 print(sdf.groupby(['year']).sum().sort_values('profit', ascending=False)['profit'].head(4).apply(lambda x: '{:.1f} billion'.format(x / 1e9)).to_string(header=False))
@@ -27,5 +28,23 @@ mean_profit = df['profit'].mean()
 
 # Print fun facts
 print(f"Average score: {mean_score:.2f}", end="\t\t")
-print(f"Average revenue: ${mean_revenue/1000000:.2f}m", end="\t\t")
-print(f"Average profit: ${mean_profit/1000000:.2f}m")
+print(f"Average revenue: ${mean_revenue/1e6:.2f}m", end="\t\t")
+print(f"Average profit: ${mean_profit/1e6:.2f}m")
+
+print("--- Harry Potter Series ----------------------------------------------------------------------------")
+# For some reason the Deathly Hallows aren't included in this dataset so I will add them.
+sdf.loc[-1] = ["Harry Potter and the Deathly Hallows: Part 1", 2010, 125e6, 980e6, 980e6-125e6, 7.7]  # adding a row
+sdf.loc[-2] = ["Harry Potter and the Deathly Hallows: Part 2", 2010, 125e6, 1340e6, 1340e6-125e6, 8.1]  # adding a row
+
+# ensuring years are numeric, not text
+sdf['year'] = pd.to_numeric(sdf['year'], errors='coerce')
+pd.options.display.float_format = '{:.2f}'.format
+
+sdf['budget'] = sdf['budget'].apply(lambda x: '{:.0f}m'.format(x/1e6))
+sdf['revenue'] = sdf['revenue'].apply(lambda x: '{:.0f}m'.format(x/1e6))
+sdf['profit'] = sdf['profit'].apply(lambda x: '{:.0f}m'.format(x/1e6))
+sdf['year'] = sdf['year'].apply(lambda x: '{:.0f}'.format(x))
+sdf['score'] = sdf['score'].apply(lambda x: '{:.1f}'.format(x))
+
+print(sdf[sdf['Title'].str.contains('Harry Potter')].sort_values('year').to_string(index=False))
+print("----------------------------------------------------------------------------------------------------")
