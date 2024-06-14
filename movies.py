@@ -23,7 +23,6 @@ df['profit'] = df['revenue'] - df['budget'] # creating profit col
 df['year'] = df['release_date'].str[:4] # extracting release year from date
 df['Title'] = df['original_title']; df['score'] = df['vote_average'] # cleaning headers
 
-
 print(f"{bc.b}---{bc.ENDC} {bc.c} Most Profitable Movies {bc.b} -------------------------------------------------------------------------{bc.ENDC}")
 sdf = df[['Title', 'year', 'budget', 'revenue', 'profit', 'score']].sort_values('profit', ascending=False)
 print(sdf.head(10).to_string(index=False))
@@ -48,17 +47,15 @@ print(f"{bc.b}---{bc.ENDC} {bc.c} Harry Potter Series {bc.b} -------------------
 # For some reason the Deathly Hallows aren't included in this dataset so I will add them.
 sdf.loc[-1] = ["Harry Potter and the Deathly Hallows: Part 1", 2010, 125e6, 980e6, 980e6-125e6, 7.7]  # adding a row
 sdf.loc[-2] = ["Harry Potter and the Deathly Hallows: Part 2", 2010, 125e6, 1340e6, 1340e6-125e6, 8.1]  # adding a row
-
 # ensuring years are numeric, not text
 sdf['year'] = pd.to_numeric(sdf['year'], errors='coerce')
 pd.options.display.float_format = '{:.2f}'.format
-
+# formatting all following sdf prints
 sdf['budget'] = sdf['budget'].apply(lambda x: '{:.0f}m'.format(x/1e6))
 sdf['revenue'] = sdf['revenue'].apply(lambda x: '{:.0f}m'.format(x/1e6))
 sdf['profit'] = sdf['profit'].apply(lambda x: '{:.0f}m'.format(x/1e6))
 sdf['year'] = sdf['year'].apply(lambda x: '{:.0f}'.format(x))
 sdf['score'] = sdf['score'].apply(lambda x: '{:.1f}'.format(x))
-
 print(sdf[sdf['Title'].str.contains('Harry Potter')].sort_values('year').to_string(index=False))
 
 print(f"{bc.b}---{bc.ENDC} {bc.c} Middle Earth {bc.b} -----------------------------------------------------------------------------------{bc.ENDC}")
@@ -71,4 +68,5 @@ print(f"{bc.b}---{bc.ENDC} {bc.c} Most Popular Films {bc.b} --------------------
 ssdf = df[['Title', 'year','profit', 'score', 'popularity']].sort_values('popularity', ascending=False)
 ssdf['profit'] = ssdf['profit'].apply(lambda x: '{:.0f}m'.format(x/1e6))
 print(ssdf.head(5).to_string(index=False))
+
 print(f"{bc.b}------------------------------------------------------------------------------------------------------{bc.ENDC}")
