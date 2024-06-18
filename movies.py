@@ -20,7 +20,7 @@ class bc:
 
 def extract_genres(genres_str, limit=None):
     try:
-        genres = json.loads(genres_str.replace("'", '"'))
+        genres = json.loads(genres_str)
         genre_names = [genre['name'] for genre in genres]
         if limit:
             genre_names = genre_names[:limit]  # Limit the number of genres if specified
