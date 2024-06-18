@@ -6,12 +6,8 @@ class bc:
     HEADER = '\033[95m'
     b = '\033[94m'
     c = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
+    g = '\033[92m'
     ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
 #---------------------------------------------------------------------------
 # note that dataset does not cover movies newer than 2016
 
