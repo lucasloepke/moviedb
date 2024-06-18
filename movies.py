@@ -20,8 +20,8 @@ class bc:
 
 def extract_genres(genres_str, limit=None):
     try:
-        genres = json.loads(genres_str.replace("'", '"'))  # Convert the string to a valid JSON format
-        genre_names = [genre['name'] for genre in genres]  # Extract the genre names
+        genres = json.loads(genres_str.replace("'", '"'))
+        genre_names = [genre['name'] for genre in genres]
         if limit:
             genre_names = genre_names[:limit]  # Limit the number of genres if specified
         return ", ".join(genre_names)  # Join multiple genres with a comma
