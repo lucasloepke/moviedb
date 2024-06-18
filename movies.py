@@ -86,6 +86,6 @@ fdf = df[['Title', 'year', 'genres', 'keywords', 'production_companies', 'profit
 fdf['genres'] = df['genres'].apply(lambda x: extract_genres(x, limit=2))
 fdf['keywords'] = fdf['keywords'].apply(lambda x: extract_genres(x, limit=3))
 fdf['production_companies'] = fdf['production_companies'].apply(lambda x: extract_genres(x, limit=1))
-fdf['profit'] = fdf['profit'].apply(lambda x: '{:.0f}m'.format(x/1e6))
+fdf['profit'] = fdf['profit'].apply(lambda x: '{:.1f}b'.format(x/1e9))
 print(fdf.head(7).to_string(index=False))
 print(f"{bc.b}------------------------------------------------------------------------------------------------------{bc.ENDC}")
