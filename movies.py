@@ -90,7 +90,7 @@ fdf['profit'] = fdf['profit'].apply(lambda x: '{:.1f}b'.format(x/1e9))
 print(fdf.head(7).to_string(index=False))
 
 print(f"{bc.b}---{bc.ENDC} {bc.c} Mean profit by Genre {bc.b} ---------------------------------------------------------------------------{bc.ENDC}")
-fdf = df[['genres', 'profit']].sort_values('profit', ascending=False)
+fdf = df[['score','genres', 'profit']].sort_values('profit', ascending=False)
 fdf['genres'] = df['genres'].apply(lambda x: extract_genres(x, limit=1))
 print(fdf.groupby(['genres']).mean().sort_values('profit', ascending=False).head(19).to_string(header=False))
 print(f"{bc.b}------------------------------------------------------------------------------------------------------{bc.ENDC}")
