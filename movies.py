@@ -2,6 +2,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
+import json
 import os; os.chdir(os.path.dirname(__file__))
 
 class bc:
@@ -17,6 +18,17 @@ class bc:
 #---------------------------------------------------------------------------
 # note that dataset does not cover movies newer than 2016
 
+def extract_genres(genres_str, limit=None):
+    try:
+        genres = json.loads(genres_str.replace("'", '"'))  # Convert the string to a valid JSON format
+        genre_names = [genre['name'] for genre in genres]  # Extract the genre names
+        if limit:
+            genre_names = genre_names[:limit]  # Limit the number of genres if specified
+        return ", ".join(genre_names)  # Join multiple genres with a comma
+    except (json.JSONDecodeError, TypeError, KeyError):
+        return "N/A"
+
+#---------------------------------------------------------------------------
 df = pd.read_csv(r'tmdb_5000_movies.csv')
 
 df['profit'] = df['revenue'] - df['budget'] # creating profit col
@@ -69,4 +81,11 @@ ssdf = df[['Title', 'year','profit', 'score', 'popularity']].sort_values('popula
 ssdf['profit'] = ssdf['profit'].apply(lambda x: '{:.0f}m'.format(x/1e6))
 print(ssdf.head(5).to_string(index=False))
 
+print(f"{bc.b}---{bc.ENDC} {bc.c} JSON Items {bc.b} -------------------------------------------------------------------------------------{bc.ENDC}")
+fdf = df[['Title', 'year', 'genres', 'keywords', 'production_companies', 'profit']].sort_values('profit', ascending=False)
+fdf['genres'] = df['genres'].apply(lambda x: extract_genres(x, limit=2))
+fdf['keywords'] = fdf['keywords'].apply(lambda x: extract_genres(x, limit=3))
+fdf['production_companies'] = fdf['production_companies'].apply(lambda x: extract_genres(x, limit=1))
+fdf['profit'] = fdf['profit'].apply(lambda x: '{:.0f}m'.format(x/1e6))
+print(fdf.head(7).to_string(index=False))
 print(f"{bc.b}------------------------------------------------------------------------------------------------------{bc.ENDC}")
